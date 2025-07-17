@@ -63,4 +63,26 @@ const updateTransaction = async (req, res) => {
   }
 };
 
-export { createTransaction, getTransactions, updateTransaction };
+const deleteTransaction = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const query = `
+        DELETE FROM transactions
+        WHERE id = $1
+        RETURNING *
+      `;
+    const result = await pool.query(query, [id]);
+    res.json("Transacción eliminada exitosamente:", result.rows[0]);
+  } catch (error) {
+    console.error("Error al eliminar la transacción:", error);
+    res.status(500).json({ error: "Error al eliminar la transacción" });
+  }
+};
+
+export {
+  createTransaction,
+  getTransactions,
+  updateTransaction,
+  deleteTransaction,
+};
