@@ -26,7 +26,7 @@ const authMiddleware = (req, res, next) => {
   } catch (error) {
     return res
       .status(401)
-      .json({ error: "Acceso no autorizado. Token inválido" });
+      .json({ error: "Access no autorizado. Token inválido" });
   }
 };
 
