@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE goals (
+CREATE TABLE IF NOT EXISTS goals (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
   name TEXT NOT NULL,
