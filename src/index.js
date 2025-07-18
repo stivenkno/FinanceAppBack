@@ -18,6 +18,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", authMiddleware, dashboardRouter);
 app.use("/api/transactions", authMiddleware, transactionsRouter);
+app.use("/api/goals", authMiddleware, transactionsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
