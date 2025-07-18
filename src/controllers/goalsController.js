@@ -46,16 +46,35 @@ const createGoal = async (req, res) => {
 const contributeToGoal = async (req, res) => {
   const { id, amount } = req.body;
 
-  const progress = (amount / req.body.targetamount) * 100;
+  if (!id || amount == null || isNaN(amount)) {
+    return res.status(400).json({ error: "Datos inválidos" });
+  }
 
-  const query = `
+  // 1. Obtener el goal actual para conocer currentamount y targetamount
+  const currentGoal = await pool.query(
+    `SELECT currentamount, targetamount FROM goals WHERE id = $1`,
+    [id]
+  );
+
+  if (currentGoal.rows.length === 0) {
+    return res.status(404).json({ error: "Meta no encontrada" });
+  }
+
+  const { currentamount, targetamount } = currentGoal.rows[0];
+
+  const newAmount = currentamount + amount;
+  const progress = (newAmount / targetamount) * 100;
+
+  // 2. Actualizar la meta
+  const result = await pool.query(
+    `
     UPDATE goals
-    SET currentamount = currentamount + $1, progress = $2
+    SET currentamount = $1, progress = $2
     WHERE id = $3
     RETURNING *
-  `;
-
-  const result = await pool.query(query, [amount, progress, id]);
+    `,
+    [newAmount, progress, id]
+  );
 
   res.json(result.rows[0]);
 };
