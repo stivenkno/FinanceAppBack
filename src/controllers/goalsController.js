@@ -13,19 +13,19 @@ const getGoals = async (req, res) => {
 };
 
 const createGoal = async (req, res) => {
-  const { name, targetAmount, deadline } = req.body;
+  const { name, targetamount, deadline } = req.body;
 
   const newGoal = {
     user_id: req.user.id,
     name,
-    targetAmount: Number(targetAmount),
-    currentAmount: 0,
+    targetamount: Number(targetamount),
+    currentamount: 0,
     deadline,
     progress: 0,
   };
 
   const query = `
-    INSERT INTO goals (user_id, name, target_amount, current_amount, deadline, progress)
+    INSERT INTO goals (user_id, name, targetamount, currentamount, deadline, progress)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *
   `;
@@ -33,8 +33,8 @@ const createGoal = async (req, res) => {
   const result = await pool.query(query, [
     newGoal.user_id,
     newGoal.name,
-    newGoal.targetAmount,
-    newGoal.currentAmount,
+    newGoal.targetamount,
+    newGoal.currentamount,
     newGoal.deadline,
     newGoal.progress,
   ]);
@@ -48,7 +48,7 @@ const contributeToGoal = async (req, res) => {
 
   const query = `
     UPDATE goals
-    SET current_amount = current_amount + $1
+    SET currentamount = currentamount + $1
     WHERE id = $2
     RETURNING *
   `;
