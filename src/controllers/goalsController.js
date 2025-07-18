@@ -1,5 +1,5 @@
 import { Router } from "express";
-import pool from "../config/config";
+import pool from "../config/config.js";
 
 const getGoals = (req, res) => {
   const query = `
