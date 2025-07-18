@@ -20,13 +20,14 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE IF NOT EXISTS Goals (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    goal_name VARCHAR(255) NOT NULL,
-    goal_amount INTEGER NOT NULL,
-    goal_aporte INTEGER NOT NULL,
-    fecha_limite DATE NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+CREATE TABLE goals (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  name TEXT NOT NULL,
+  target_amount NUMERIC NOT NULL,
+  current_amount NUMERIC DEFAULT 0,
+  deadline DATE,
+  progress NUMERIC DEFAULT 0
 );
+
 `;
