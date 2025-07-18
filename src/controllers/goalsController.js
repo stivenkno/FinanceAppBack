@@ -1,17 +1,18 @@
 import { Router } from "express";
 import pool from "../config/config.js";
 
-const getGoals = (req, res) => {
+const getGoals = async (req, res) => {
   const query = `
     SELECT * FROM goals
     WHERE user_id = $1
   `;
 
-  const result = pool.query(query, [req.user.id]);
+  const result = await pool.query(query, [req.user.id]);
+
   res.json(result.rows);
 };
 
-const createGoal = (req, res) => {
+const createGoal = async (req, res) => {
   const { name, targetAmount, deadline } = req.body;
 
   const newGoal = {
@@ -29,7 +30,7 @@ const createGoal = (req, res) => {
     RETURNING *
   `;
 
-  const result = pool.query(query, [
+  const result = await pool.query(query, [
     newGoal.user_id,
     newGoal.name,
     newGoal.targetAmount,
@@ -42,7 +43,7 @@ const createGoal = (req, res) => {
 };
 
 // Aportar a una meta
-const contributeToGoal = (req, res) => {
+const contributeToGoal = async (req, res) => {
   const { id, amount } = req.body;
 
   const query = `
@@ -52,13 +53,13 @@ const contributeToGoal = (req, res) => {
     RETURNING *
   `;
 
-  const result = pool.query(query, [amount, id]);
+  const result = await pool.query(query, [amount, id]);
 
   res.json(result.rows[0]);
 };
 
 // Eliminar una meta
-const deleteGoal = (req, res) => {
+const deleteGoal = async (req, res) => {
   const { id } = req.body;
 
   const query = `
@@ -67,7 +68,7 @@ const deleteGoal = (req, res) => {
     RETURNING *
   `;
 
-  const result = pool.query(query, [id]);
+  const result = await pool.query(query, [id]);
 
   res.json(result.rows[0]);
 };
