@@ -2,10 +2,17 @@ import { Router } from "express";
 
 const goalRouter = Router();
 
-import { createGoal, goal_aporte } from "../controllers/goalsController.js";
+import {
+  getGoals,
+  createGoal,
+  contributeToGoal,
+  deleteGoal,
+} from "../controllers/goalsController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
+goalRouter.get("/getgoals", authMiddleware, getGoals);
 goalRouter.post("/creategoal", authMiddleware, createGoal);
-goalRouter.put("/goal_aporte", authMiddleware, goal_aporte);
+goalRouter.put("/goal_aporte", authMiddleware, contributeToGoal);
+goalRouter.delete("/deletegoal", authMiddleware, createGoal);
 
 export default goalRouter;

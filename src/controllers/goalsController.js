@@ -1,6 +1,16 @@
 import { Router } from "express";
 import pool from "../config/config";
 
+const getGoals = (req, res) => {
+  const query = `
+    SELECT * FROM goals
+    WHERE user_id = $1
+  `;
+
+  const result = pool.query(query, [req.user.id]);
+  res.json(result.rows);
+};
+
 const createGoal = (req, res) => {
   const { name, targetAmount, deadline } = req.body;
 
@@ -61,3 +71,5 @@ const deleteGoal = (req, res) => {
 
   res.json(result.rows[0]);
 };
+
+export { getGoals, createGoal, contributeToGoal, deleteGoal };
