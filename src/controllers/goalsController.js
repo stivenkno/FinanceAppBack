@@ -46,14 +46,16 @@ const createGoal = async (req, res) => {
 const contributeToGoal = async (req, res) => {
   const { id, amount } = req.body;
 
+  const progress = (amount / req.body.targetamount) * 100;
+
   const query = `
     UPDATE goals
-    SET currentamount = currentamount + $1
-    WHERE id = $2
+    SET currentamount = currentamount + $1, progress = $2
+    WHERE id = $3
     RETURNING *
   `;
 
-  const result = await pool.query(query, [amount, id]);
+  const result = await pool.query(query, [amount, progress, id]);
 
   res.json(result.rows[0]);
 };
