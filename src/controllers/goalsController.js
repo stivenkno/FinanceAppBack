@@ -62,7 +62,7 @@ const contributeToGoal = async (req, res) => {
 
   const { currentamount, targetamount } = currentGoal.rows[0];
 
-  const newAmount = currentamount + amount;
+  const newAmount = parseInt(currentamount) + parseInt(amount);
   const progress = (newAmount / targetamount) * 100;
 
   // 2. Actualizar la meta
