@@ -26,7 +26,7 @@ const createGoal = async (req, res) => {
 
   const query = `
     INSERT INTO goals (user_id, name, targetamount, currentamount, deadline, progress)
-    VALUES ($1, $2, $3, $4, $5)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *
   `;
 
