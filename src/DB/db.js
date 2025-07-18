@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS goals (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
   name TEXT NOT NULL,
-  target_amount NUMERIC NOT NULL,
-  current_amount NUMERIC DEFAULT 0,
+  targetAmount NUMERIC NOT NULL,
+  currentAmount NUMERIC DEFAULT 0,
   deadline DATE,
   progress NUMERIC DEFAULT 0
 );
